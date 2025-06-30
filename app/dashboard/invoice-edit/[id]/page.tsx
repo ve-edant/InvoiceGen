@@ -3,7 +3,8 @@ import { notFound } from "next/navigation";
 import EditInvoiceForm from "../../invoice-create/Components/EditInvoiceForm";
 
 export default async function EditPage({ params }: { params: { id: string } }) {
-  const invoiceData = await getInvoiceById(params.id);
+  const resolvedParams = await params; 
+  const invoiceData = await getInvoiceById(resolvedParams.id);
 
   if (!invoiceData) return notFound();
 

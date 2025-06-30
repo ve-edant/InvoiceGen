@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import { InvoiceTable } from "./invoice-edit/InvoiceTable";
+import { InvoiceTable } from "./invoice-edit/[id]/InvoiceTable";
 
 export default function DashboardPage() {
   return (

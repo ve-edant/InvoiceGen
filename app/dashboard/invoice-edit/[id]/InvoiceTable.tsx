@@ -7,7 +7,7 @@ import { Button } from "@/app/Components/UI/Button";
 import { Badge } from "@/app/Components/UI/badge";
 import { Table, TableHeader, TableBody, TableRow, TableCell, TableHead } from "@/app/Components/UI/table";
 import { v4 as uuidv4 } from "uuid";
-import ViewButton from "../invoice-create/Components/ViewButton";
+import ViewButton from "../../invoice-create/Components/ViewButton";
 
 const fetcher = (url: string) => fetch(url).then(res => res.json());
 
