@@ -5,9 +5,9 @@ import { authOptions } from "@/app/lib/authOptions";
 import { prisma } from "@/app/lib/prisma";
 import { InvoiceItem } from "@/app/store/invoiceSlice";
 
-export async function PUT(req: NextRequest, { params }: { params: { id: string } }) {
-  const invoiceId = params.id;
-  
+export async function PUT(req: NextRequest, { params }: {params : Promise<{ invoiceId: string }>}) {
+  const {invoiceId} = await params;
+
   const session = await getServerSession(authOptions);
 
   if (!session?.user?.email) {
