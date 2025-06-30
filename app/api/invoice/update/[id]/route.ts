@@ -5,8 +5,7 @@ import { authOptions } from "@/app/lib/authOptions";
 import { prisma } from "@/app/lib/prisma";
 import { InvoiceItem } from "@/app/store/invoiceSlice";
 
-export async function PUT(req: NextRequest, context: { params: { id: string } }) {
-  const { id } = context.params;
+export async function PUT(req: NextRequest, params: { id: string } ) {
   const session = await getServerSession(authOptions);
 
   if (!session?.user?.email) {
@@ -21,7 +20,7 @@ export async function PUT(req: NextRequest, context: { params: { id: string } })
     return NextResponse.json({ error: "User not found" }, { status: 404 });
   }
 
-  const invoiceId = context.params.id;
+  const invoiceId = params.id;
   const body = await req.json();
 
   try {
