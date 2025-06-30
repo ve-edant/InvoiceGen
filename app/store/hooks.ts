@@ -21,7 +21,6 @@ export const useDebouncedInvoiceBlob = (delay = 2000) => {
       try {
         const blob = await createBlob(invoice);
         const url = URL.createObjectURL(blob);
-        console.log(url)
 
         setBlobUrl((prev) => {
           if (prev) URL.revokeObjectURL(prev);
