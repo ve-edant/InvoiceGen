@@ -6,6 +6,8 @@ import { prisma } from "@/app/lib/prisma";
 import { InvoiceItem } from "@/app/store/invoiceSlice";
 
 export async function PUT(req: NextRequest, { params }: { params: { id: string } }) {
+  const invoiceId = params.id;
+  
   const session = await getServerSession(authOptions);
 
   if (!session?.user?.email) {
@@ -20,7 +22,6 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
     return NextResponse.json({ error: "User not found" }, { status: 404 });
   }
 
-  const invoiceId = params.id;
   const body = await req.json();
 
   try {
