@@ -4,8 +4,11 @@ import { useState, useEffect } from "react";
 import Sidebar from "./Sidebar";
 import { Menu } from "lucide-react";
 import PageHeader from "../invoice-create/lib/PageHeader";
+import { usePathname } from "next/navigation";
 
 const MainWrapper = ({ children }: { children: React.ReactNode }) => {
+  const currentPath = usePathname();
+
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
 
@@ -47,7 +50,15 @@ const MainWrapper = ({ children }: { children: React.ReactNode }) => {
             {/* Slanted Divider */}
             <div className="h-6 w-px bg-zinc-400 rotate-[15deg]" />
 
-            <h1 className="text-lg font-bold">Welcome, </h1>
+            <h1 className="text-lg font-bold">
+              {currentPath === "/dashboard"
+                ? "Dashboard"
+                : currentPath === "/dashboard/invoice-create"
+                ? "Create Invoice"
+                : currentPath === "/dashboard/manage-assets"
+                ? "Manage Assets"
+                : ""}
+            </h1>
           </div>
 
           <div className="flex-1 overflow-y-auto">{children}</div>

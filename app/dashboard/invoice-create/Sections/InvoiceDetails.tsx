@@ -1,7 +1,7 @@
 "use client";
 
 import { useAppDispatch } from "@/app/store/hooks";
-import { updateInvoiceDetails } from "@/app/store/invoiceSlice";
+import { updateInvoiceDetails, updateInvoiceSerial } from "@/app/store/invoiceSlice";
 import { RootState, store } from "@/app/store/store";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
@@ -12,6 +12,7 @@ const InvoiceDetails: React.FC = () => {
   const invoiceDetails = useSelector(
     (state: RootState) => state.invoice.InvoiceDetails
   );
+  const invoiceSerial = useSelector((state:RootState)=>state.invoice.InvoiceSerial)
 
   // Handle input changes for billing fields
   const handleBillingChange = (
@@ -107,11 +108,11 @@ const InvoiceDetails: React.FC = () => {
           <input
             type="text"
             className="w-full border rounded px-3 py-2 focus:outline-none focus:ring focus:border-blue-400"
-            value={invoiceDetails.invoicePrefix}
+            value={invoiceSerial.invoicePrefix}
             onChange={(e) => {
               dispatch(
-                updateInvoiceDetails({
-                  ...invoiceDetails,
+                updateInvoiceSerial({
+                  ...invoiceSerial,
                   invoicePrefix: e.target.value,
                 })
               );
@@ -126,16 +127,16 @@ const InvoiceDetails: React.FC = () => {
           <input
             type="number"
             className="w-full border rounded px-3 py-2 focus:outline-none focus:ring focus:border-blue-400"
-            value={invoiceDetails.serialNumber}
+            value={invoiceSerial.invoiceNumber}
             onChange={(e) => {
               dispatch(
-                updateInvoiceDetails({
-                  ...invoiceDetails,
-                  serialNumber: e.target.value,
+                updateInvoiceSerial({
+                  ...invoiceSerial,
+                  invoiceNumber: Number(e.target.value),
                 })
               );
             }}
-            placeholder="e.g. 1001"
+            placeholder="e.g. 101"
             min={0}
           />
         </div>
@@ -148,7 +149,7 @@ const InvoiceDetails: React.FC = () => {
           <input
             type="date"
             className="w-full border rounded px-3 py-2 focus:outline-none focus:ring focus:border-blue-400"
-            value={invoiceDetails.invoiceDate}
+            value={invoiceDetails.invoiceDate.split("T")[0]}
             onChange={(e) => {
               dispatch(
                 updateInvoiceDetails({
@@ -164,7 +165,7 @@ const InvoiceDetails: React.FC = () => {
           <input
             type="date"
             className="w-full border rounded px-3 py-2 focus:outline-none focus:ring focus:border-blue-400"
-            value={invoiceDetails.dueDate}
+            value={invoiceDetails.dueDate.split("T")[0]}
             onChange={(e) => {
               dispatch(
                 updateInvoiceDetails({

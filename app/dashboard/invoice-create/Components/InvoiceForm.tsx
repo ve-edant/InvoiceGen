@@ -14,33 +14,33 @@ import InvoiceDetails from "../Sections/InvoiceDetails";
 const InvoiceForm = () => {
   return (
     <div>
-      <Accordion type="single" collapsible className="w-full">
+      <Accordion type="single" collapsible className="w-full text-black">
         <AccordionItem value="item-1">
-          <AccordionTrigger>Company Details</AccordionTrigger>
+          <AccordionTrigger className="text-black">Company Details</AccordionTrigger>
           <AccordionContent>
             <CompanyDetails />
           </AccordionContent>
         </AccordionItem>
         <AccordionItem value="item-2">
-          <AccordionTrigger>Client Details</AccordionTrigger>
+          <AccordionTrigger className="text-black">Client Details</AccordionTrigger>
           <AccordionContent>
             <ClientDetails />
           </AccordionContent>
         </AccordionItem>
         <AccordionItem value="item-3">
-          <AccordionTrigger>Invoice Items</AccordionTrigger>
+          <AccordionTrigger className="text-black">Invoice Items</AccordionTrigger>
           <AccordionContent>
             <InvoiceItems />
           </AccordionContent>
         </AccordionItem>
         <AccordionItem value="item-4">
-          <AccordionTrigger>Invoice Details</AccordionTrigger>
+          <AccordionTrigger className="text-black">Invoice Details</AccordionTrigger>
           <AccordionContent>
             <InvoiceDetails />
           </AccordionContent>
         </AccordionItem>
         <AccordionItem value="item-5">
-          <AccordionTrigger>Additional Notes</AccordionTrigger>
+          <AccordionTrigger className="text-black">Additional Notes</AccordionTrigger>
           <AccordionContent>
             <AdditionalNotes />
           </AccordionContent>

@@ -59,13 +59,15 @@ model VerificationToken {
 model User {
   id            String    @id @default(cuid())
   name          String?
-  email         String?   @unique
+  email         String   @unique
   password      String?
-  emailVerified DateTime?
   image         String?
+  emailVerified DateTime?
   accounts      Account[]
   sessions      Session[]
   invoices      Invoice[]
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt  @default(now())
 }
 
 // INVOICE APP MODELS
@@ -73,6 +75,9 @@ model Invoice {
   id                      String                  @id @default(cuid())
   userId                  String
   user                    User                    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  invoiceNumber            Int
+  invoicePrefix           String
 
   companyDetailsId        String?                 @unique
   companyDetails          CompanyDetails?         @relation(fields: [companyDetailsId], references: [id], onDelete: SetNull)
@@ -82,8 +87,6 @@ model Invoice {
 
   invoiceDetailsId        String?                 @unique
   invoiceDetails          InvoiceDetails?         @relation(fields: [invoiceDetailsId], references: [id], onDelete: SetNull)
-
-  serialNumber   String
   
   additionalInformationId String?                 @unique
   additionalInformation   AdditionalInformation?  @relation(fields: [additionalInformationId], references: [id], onDelete: SetNull)
@@ -125,7 +128,6 @@ model InvoiceDetails {
   invoice        Invoice?
   currency       String
   themeColor     String
-  invoicePrefix  String
   invoiceDate    DateTime         @db.Date
   dueDate        DateTime         @db.Date
   paymentTerms   String

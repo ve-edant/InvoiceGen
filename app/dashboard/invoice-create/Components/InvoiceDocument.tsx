@@ -11,6 +11,7 @@ import {
 import { InvoiceSchema } from "@/app/schemas/invoiceSchema";
 import getSymbolFromCurrency from 'currency-symbol-map'
 import { formatCurrencyText } from "../InvoiceHelpers/CurrenySelect";
+import { calculateInvoiceTotal, subTotal } from "../lib/Invoice/totalCalculations";
 
 interface Props {
   data: InvoiceSchema;
@@ -18,6 +19,7 @@ interface Props {
 
 const InvoiceDocument: React.FC<Props> = ({ data }) => {
   const {
+    InvoiceSerial,
     CompanyDetails,
     ClientDetails,
     InvoiceDetails,
@@ -30,10 +32,7 @@ const InvoiceDocument: React.FC<Props> = ({ data }) => {
     secondary: "#F0F0F0",
   };
 
-  const subtotal = (InvoiceItems ?? []).reduce(
-    (sum, item) => sum + item.quantity * item.rate,
-    0
-  );
+  const subtotal = subTotal(InvoiceItems);
 
   const calculateBillingAdjustment = (
     field: (typeof InvoiceDetails.billingDetails)[0]
@@ -43,12 +42,7 @@ const InvoiceDocument: React.FC<Props> = ({ data }) => {
     return 0;
   };
 
-  const totalAdjustments = (InvoiceDetails.billingDetails ?? []).reduce(
-    (sum, field) => sum + calculateBillingAdjustment(field),
-    0
-  );
-
-  const grandTotal = subtotal + totalAdjustments;
+  const grandTotal = calculateInvoiceTotal(InvoiceItems ,InvoiceDetails.billingDetails)
 
   const styles = StyleSheet.create({
     page: {
@@ -190,7 +184,7 @@ const InvoiceDocument: React.FC<Props> = ({ data }) => {
               fontWeight: "bold",
             }}
           >
-            Invoice {InvoiceDetails.invoicePrefix}-{InvoiceDetails.serialNumber}
+            Invoice {InvoiceSerial.invoicePrefix}-{InvoiceSerial.invoiceNumber}
           </Text>
         </View>
 
@@ -200,19 +194,19 @@ const InvoiceDocument: React.FC<Props> = ({ data }) => {
             <View style={styles.infoRow}>
               <Text style={{ ...styles.infoHeading }}>Serial Number:</Text>
               <Text style={{ ...styles.rightInfoCell }}>
-                {InvoiceDetails.serialNumber}
+                {InvoiceSerial.invoiceNumber}
               </Text>
             </View>
             <View style={styles.infoRow}>
               <Text style={{ ...styles.infoHeading }}>Date:</Text>
               <Text style={{ ...styles.rightInfoCell }}>
-                {InvoiceDetails.invoiceDate}
+                {InvoiceDetails.invoiceDate.split("T")[0]}
               </Text>
             </View>
             <View style={styles.infoRow}>
               <Text style={{ ...styles.infoHeading }}>Due Date:</Text>
               <Text style={{ ...styles.rightInfoCell }}>
-                {InvoiceDetails.dueDate}
+                {InvoiceDetails.dueDate.split("T")[0]}
               </Text>
             </View>
             <View style={styles.infoRow}>

@@ -1,8 +1,8 @@
 // invoiceSlice.ts
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { v4 as uuid } from "uuid";
 
-
-interface InvoiceItem {
+export interface InvoiceItem {
   id: string;
   itemName: string;
   description: string;
@@ -17,13 +17,16 @@ interface BillingDetails {
 }
 
 interface InvoiceState {
+  InvoiceSerial: {
+    invoiceNumber: number;
+    invoicePrefix: string;
+  };
   CompanyDetails: {
     companyName: string;
     companyEmail: string;
     companyAddress: string;
     companyLogo: string; // Placeholder for company logo
     companySignature: string; // Placeholder for company signature
-    
   };
   ClientDetails: {
     clientName: string;
@@ -34,8 +37,6 @@ interface InvoiceState {
   InvoiceDetails: {
     currency: string;
     themeColor: string;
-    invoicePrefix: string;
-    serialNumber: string;
     invoiceDate: string;
     dueDate: string;
     paymentTerms: string;
@@ -48,12 +49,17 @@ interface InvoiceState {
 }
 
 const initialState: InvoiceState = {
+  InvoiceSerial: {
+    invoicePrefix: "INV",
+    invoiceNumber: 101,
+  },
   CompanyDetails: {
     companyName: "Acme Corp",
     companyEmail: "contact@acme.com",
     companyAddress: "123 Industrial Street, Metropolis, NY 10001",
-    companyLogo: "https://via.placeholder.com/150x80?text=Company+Logo",
-    companySignature: "https://via.placeholder.com/100x40?text=Signature",
+    companyLogo: "https://placehold.co/150x80/e0e0e0/000000?text=Company+Logo",
+    companySignature:
+      "https://placehold.co/100x40/e0e0e0/000000?text=Signature",
   },
   ClientDetails: {
     clientName: "John Doe",
@@ -64,10 +70,8 @@ const initialState: InvoiceState = {
   InvoiceDetails: {
     currency: "USD",
     themeColor: "#2563eb",
-    invoicePrefix: "INV",
-    serialNumber: "1001",
-    invoiceDate: new Date().toISOString().split("T")[0], // today's date
-    dueDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split("T")[0], // 7 days later
+    invoiceDate: new Date().toISOString(), // today's date
+    dueDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(), // 7 days later
     paymentTerms: "Net 7",
     billingDetails: [
       { label: "Tax", value: 10, type: "Percentage" },
@@ -76,7 +80,7 @@ const initialState: InvoiceState = {
   },
   InvoiceItems: [
     {
-      id: "item-1",
+      id: uuid(),
       itemName: "Preview Item 1",
       description: "Description Item 1",
       quantity: 1,
@@ -88,7 +92,6 @@ const initialState: InvoiceState = {
   },
 };
 
-
 interface UpdateInvoiceItemPayload {
   id: string;
   field: keyof Omit<InvoiceItem, "id">;
@@ -99,6 +102,12 @@ const invoiceSlice = createSlice({
   name: "invoice",
   initialState,
   reducers: {
+    updateInvoiceSerial: (
+      state,
+      action: PayloadAction<Partial<InvoiceState["InvoiceSerial"]>>
+    ) => {
+      state.InvoiceSerial = { ...state.InvoiceSerial, ...action.payload };
+    },
     updateCompanyDetails: (
       state,
       action: PayloadAction<Partial<InvoiceState["CompanyDetails"]>>
@@ -135,6 +144,9 @@ const invoiceSlice = createSlice({
         (item as any)[field] = value;
       }
     },
+    setInvoiceItems: (state, action: PayloadAction<InvoiceItem[]>) => {
+      state.InvoiceItems = action.payload;
+    },
     updateAdditionalInformation: (
       state,
       action: PayloadAction<Partial<InvoiceState["AdditionalInformation"]>>
@@ -149,12 +161,14 @@ const invoiceSlice = createSlice({
 });
 
 export const {
+  updateInvoiceSerial,
   updateCompanyDetails,
   updateClientDetails,
   updateInvoiceDetails,
   addInvoiceItem,
   removeInvoiceItem,
   updateInvoiceItem,
+  setInvoiceItems,
   updateAdditionalInformation,
   resetInvoice,
 } = invoiceSlice.actions;

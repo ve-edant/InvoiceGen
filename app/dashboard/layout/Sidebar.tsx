@@ -1,4 +1,5 @@
 "use client";
+import Profile from "@/app/Components/Profile";
 import Link from "next/dist/client/link";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useRef, useState } from "react";
@@ -53,13 +54,17 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, setIsOpen }) => {
 
       <aside
         ref={sidebarRef}
-        className={`text-black fixed md:static top-0 left-0 h-screen bg-zinc-100 border-r border-zinc-300 z-30
+        className={`flex flex-col justify-between text-black fixed md:static p-4 top-0 left-0 h-screen bg-zinc-100 border-r border-zinc-300 z-30
           transition-transform duration-300 ease-in-out
           ${isOpen ? "translate-x-0" : "-translate-x-full"}
           w-[80%] sm:w-[70%] md:w-64
         `}
       >
-        <div className="flex justify-end md:hidden p-4">
+        
+
+        {/* Sidebar content */}
+        <nav className="space-y-2 w-full">
+          <div className="flex justify-end md:hidden">
           <button
             onClick={() => setIsOpen(false)}
             className="text-sm px-3 py-1 bg-zinc-300 rounded"
@@ -67,9 +72,6 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, setIsOpen }) => {
             Close
           </button>
         </div>
-
-        {/* Sidebar content */}
-        <nav className="p-4 space-y-2">
           <div className="text-xl font-bold">InvoiceGen</div>
           <div className="flex flex-col gap-2">
             <Link
@@ -91,15 +93,8 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, setIsOpen }) => {
               Manage Assets
             </Link>
           </div>
-          <div>
-            <button
-              className="w-full cursor-pointer bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition-colors"
-              onClick={() => router.push("/auth/login")}
-            >
-              Login
-            </button>
-          </div>
         </nav>
+        <Profile />
       </aside>
     </>
   );

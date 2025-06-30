@@ -1,5 +1,10 @@
 import { z } from "zod";
 
+const invoiceSerial = z.object({
+  invoiceNumber: z.number().nonnegative("Serial Number should be non-negative").min(1, "Serial Number required"),
+  invoicePrefix: z.string().min(1, "Invoice Prefix Required")
+});
+
 // BillingField Schema
 const billingFieldSchema = z.object({
   label: z.string().min(1, "Billing label is required"),
@@ -39,8 +44,6 @@ const clientDetailsSchema = z.object({
 const invoiceDetailsSchema = z.object({
   currency: z.string().min(1, "Currency is required"),
   themeColor: z.string().regex(/^#([0-9A-Fa-f]{3}){1,2}$/, "Invalid color code"),
-  invoicePrefix: z.string(),
-  serialNumber: z.string(),
   invoiceDate: z.string().refine(
     (date) => !isNaN(Date.parse(date)),
     "Invalid invoice date"
@@ -60,6 +63,7 @@ const additionalInformationSchema = z.object({
 
 // Final Invoice Schema
 export const invoiceSchema = z.object({
+  InvoiceSerial: invoiceSerial,
   CompanyDetails: companyDetailsSchema,
   ClientDetails: clientDetailsSchema,
   InvoiceDetails: invoiceDetailsSchema,

@@ -78,7 +78,7 @@ export default function InvoicePage() {
                   minSize={30}
                   className="overflow-y-auto"
                 >
-                  <div className="h-full">
+                  <div className="h-full text-black">
                     <InvoiceForm />
                   </div>
                 </Panel>

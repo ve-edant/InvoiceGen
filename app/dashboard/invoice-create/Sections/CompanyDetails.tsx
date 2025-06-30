@@ -10,7 +10,7 @@ const CompanyDetails = () => {
     (state: RootState) => state.invoice.CompanyDetails
   );
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col gap-2 text-gray-800">
       <CompanyImageUpload />
 
       {/* Text Inputs */}
@@ -18,7 +18,7 @@ const CompanyDetails = () => {
         <div className="flex flex-col">
           <label
             htmlFor="company-name"
-            className="mb-1 font-medium text-sm text-gray-700"
+            className="mb-1 font-medium text-sm text-black"
           >
             Company Name
           </label>
@@ -41,7 +41,7 @@ const CompanyDetails = () => {
         <div className="flex flex-col">
           <label
             htmlFor="company-email"
-            className="mb-1 font-medium text-sm text-gray-700"
+            className="mb-1 font-medium text-sm"
           >
             Company Email
           </label>
@@ -65,7 +65,7 @@ const CompanyDetails = () => {
         <div className="flex flex-col">
           <label
             htmlFor="company-address"
-            className="mb-1 font-medium text-sm text-gray-700"
+            className="mb-1 font-medium text-sm "
           >
             Company Address
           </label>
