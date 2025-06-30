@@ -30,7 +30,6 @@ const statusColors: Record<string, string> = {
 
 function InvoiceTable() {
   const { data, isLoading } = useSWR("/api/invoice/list", fetcher);
-  console.log("Fetched invoices:", data);
 
   const formatCurrency = (value: number, currency: string) => {
     return `${currency === "INR" ? "₹" : "$"}${value}`;

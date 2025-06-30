@@ -22,7 +22,6 @@ export async function POST(req: Request) {
   }
 
   const body = await req.json();
-  console.log("📦 Incoming invoice payload:", JSON.stringify(body, null, 2));
 
   try {
     const company = await prisma.companyDetails.create({
