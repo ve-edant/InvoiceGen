@@ -2,9 +2,9 @@ import { getInvoiceById } from "@/app/dashboard/invoice-create/lib/queries"; // 
 import { notFound } from "next/navigation";
 import EditInvoiceForm from "../../invoice-create/Components/EditInvoiceForm";
 
-export default async function EditPage({ params }: {params : Promise<{ invoiceId: string }>}) {
-  const {invoiceId} = await params;
-  const invoiceData = await getInvoiceById(invoiceId);
+export default async function EditPage({ params }: {params : Promise<{ id: string }>}) {
+  const {id} = await params;
+  const invoiceData = await getInvoiceById(id);
 
   if (!invoiceData) return notFound();
 
