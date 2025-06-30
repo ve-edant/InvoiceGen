@@ -20,6 +20,7 @@ export async function getInvoiceById(invoiceId: string) {
 
     if (!invoice) return null;
     const cleanedItems = invoice.invoiceItems.map(({ invoiceId, ...item }) => item);
+    const cleanedBillingItems = invoice.invoiceDetails?.billingDetails.map(({ invoiceDetailsId, ...item }) => item)
     // Optional: Structure data to match your Redux shape
     return {
       id: invoice.id,
@@ -27,7 +28,10 @@ export async function getInvoiceById(invoiceId: string) {
       invoiceNumber: invoice.invoiceNumber,
       companyDetails: invoice.companyDetails,
       clientDetails: invoice.clientDetails,
-      invoiceDetails: invoice.invoiceDetails,
+      invoiceDetails: {
+        ...invoice.invoiceDetails,
+        billingDetails: cleanedBillingItems || [],
+      },
       additionalInformation: invoice.additionalInformation,
       invoiceItems: cleanedItems,
     };

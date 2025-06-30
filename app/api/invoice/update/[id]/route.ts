@@ -5,7 +5,7 @@ import { authOptions } from "@/app/lib/authOptions";
 import { prisma } from "@/app/lib/prisma";
 import { InvoiceItem } from "@/app/store/invoiceSlice";
 
-export async function PUT(req: NextRequest, params: { id: string } ) {
+export async function PUT(req: NextRequest, {params}: { params: { id: string } }) {
   const session = await getServerSession(authOptions);
 
   if (!session?.user?.email) {
@@ -70,23 +70,15 @@ export async function PUT(req: NextRequest, params: { id: string } ) {
     });
 
     await prisma.invoice.update({
-      where: { id: invoiceId },
-      data: {
-        invoicePrefix: body.InvoiceSerial.invoicePrefix,
-        invoiceNumber: body.InvoiceSerial.invoiceNumber,
-      },
-    });
-
-    await prisma.invoice.update({
-      where: { id: invoiceId },
-      data: {
-        invoiceItems: {
-          create: (body.InvoiceItems as InvoiceItem[]).map(
-            ({ ...item }) => ({ ...item })
-          ),
-        },
-      },
-    });
+  where: { id: invoiceId },
+  data: {
+    invoicePrefix: body.InvoiceSerial.invoicePrefix,
+    invoiceNumber: body.InvoiceSerial.invoiceNumber,
+    invoiceItems: {
+      create: (body.InvoiceItems as InvoiceItem[]).map(({ ...item }) => item),
+    },
+  },
+});
 
     return NextResponse.json({ success: true });
   } catch (error) {
