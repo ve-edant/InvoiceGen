@@ -2,7 +2,9 @@ import { getInvoiceById } from "@/app/dashboard/invoice-create/lib/queries"; // 
 import { notFound } from "next/navigation";
 import EditInvoiceForm from "../../invoice-create/Components/EditInvoiceForm";
 
-export default async function EditPage({ params }: { params: { id: string } }) {
+interface EditPageProps { params: { id: string } };
+
+export default async function EditPage({ params }: EditPageProps) {
   const resolvedParams = await params; 
   const invoiceData = await getInvoiceById(resolvedParams.id);
 
