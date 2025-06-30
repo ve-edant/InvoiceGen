@@ -4,7 +4,7 @@
 import { useEffect, useState, useRef } from "react";
 import MainWrapper from "../layout/MainWrapper";
 import InvoiceForm from "./Components/InvoiceForm";
-import { PanelGroup, Panel } from "react-resizable-panels";
+import { PanelGroup, Panel, PanelResizeHandle } from "react-resizable-panels";
 import { DownloadButton } from "./InvoiceHelpers/DownloadButton";
 import InvoiceBlobPreview from "./Components/InvoiceBlobPreview";
 import { useDebouncedInvoiceBlob } from "@/app/store/hooks";
@@ -83,6 +83,8 @@ export default function InvoicePage() {
                   </div>
                 </Panel>
               )}
+
+              <PanelResizeHandle disabled />
 
               {(view === "Both" || view === "Preview") && (
                 <Panel

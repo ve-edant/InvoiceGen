@@ -14,7 +14,7 @@ import {
   updateInvoiceSerial,
 } from "@/app/store/invoiceSlice";
 import { useDispatch } from "react-redux";
-import { PanelGroup, Panel } from "react-resizable-panels";
+import { PanelGroup, Panel, PanelResizeHandle } from "react-resizable-panels";
 
 export default function EditInvoiceForm({ initialData }: { initialData: any }) {
   const dispatch = useDispatch();
@@ -79,6 +79,7 @@ export default function EditInvoiceForm({ initialData }: { initialData: any }) {
                 </div>
               </Panel>
             )}
+            <PanelResizeHandle disabled />
             {(view === "Both" || view === "Preview") && (
               <Panel defaultSize={50} minSize={30} className="overflow-y-auto">
                 <div className="h-full">

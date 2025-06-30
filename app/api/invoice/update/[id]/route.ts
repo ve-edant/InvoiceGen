@@ -5,7 +5,9 @@ import { authOptions } from "@/app/lib/authOptions";
 import { prisma } from "@/app/lib/prisma";
 import { InvoiceItem } from "@/app/store/invoiceSlice";
 
-export async function PUT(req: NextRequest, { params }: { params: { id: string } }) {
+type Params = Promise<{ id: string }>;
+
+export async function PUT(req: NextRequest, params: { params: Params }) {
   const session = await getServerSession(authOptions);
 
   if (!session?.user?.email) {
@@ -20,13 +22,13 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
     return NextResponse.json({ error: "User not found" }, { status: 404 });
   }
 
-  const invoiceId = params.id;
+  const {id} = (await params.params);
   const body = await req.json();
 
   try {
     // First, fetch the existing invoice with relational IDs
     const existingInvoice = await prisma.invoice.findUnique({
-      where: { id: invoiceId },
+      where: { id: id },
     });
 
     if (!existingInvoice) {
@@ -66,11 +68,11 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
 
     // Delete existing items and recreate them
     await prisma.invoiceItem.deleteMany({
-      where: { invoiceId: invoiceId },
+      where: { invoiceId: id },
     });
 
     await prisma.invoice.update({
-  where: { id: invoiceId },
+  where: { id: id },
   data: {
     invoicePrefix: body.InvoiceSerial.invoicePrefix,
     invoiceNumber: body.InvoiceSerial.invoiceNumber,
