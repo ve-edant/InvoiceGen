@@ -54,7 +54,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, setIsOpen }) => {
 
       <aside
         ref={sidebarRef}
-        className={`flex flex-col justify-between text-black fixed md:static p-4 top-0 left-0 h-screen bg-zinc-100 border-r border-zinc-300 z-30
+        className={`flex flex-col justify-between text-black fixed md:static p-4 top-0 left-0 h-[100dvh] bg-zinc-100 border-r border-zinc-300 z-30
           transition-transform duration-300 ease-in-out
           ${isOpen ? "translate-x-0" : "-translate-x-full"}
           w-[80%] sm:w-[70%] md:w-64

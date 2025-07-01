@@ -31,7 +31,7 @@ const MainWrapper = ({ children }: { children: React.ReactNode }) => {
   }, [isMobile]);
 
   return (
-    <div className="relative h-screen w-full flex">
+    <div className="relative h-[100dvh] w-full flex">
       <Sidebar isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />
 
       <main
