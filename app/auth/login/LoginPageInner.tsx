@@ -24,7 +24,9 @@ export default function LoginPageInner() {
         </p>
       </div>
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md p-8 rounded-xl">
-        {error === "OAuthCallback" && (
+        {
+        error === "OAuthCallback" && (
+            console.log(error),
           <p className="text-red-600 text-sm text-center mb-4">
             Google sign-in failed. Please try again.
           </p>

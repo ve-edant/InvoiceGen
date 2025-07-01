@@ -36,6 +36,7 @@ export function InvoiceTable() {
   };
 
   if (isLoading) return <div className="p-4">Loading invoices...</div>;
+  if (!Array.isArray(data)) return <div className="p-4 text-yellow-500">No invoices found or unauthorized.</div>;
   if (!data || data.length === 0) return <div className="p-4">No invoices found.</div>;
 
   return (
